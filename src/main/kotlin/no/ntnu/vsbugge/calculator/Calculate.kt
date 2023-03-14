@@ -21,7 +21,7 @@ data class Result(val result: Double)
  * Service for performing arithmetic operations
  */
 @Service
-class ArithmeticService {
+object ArithmeticService {
     fun calculate(operation: Operation): Result {
         return when (operation.operator) {
             '+' -> Result(operation.a + operation.b)
@@ -40,7 +40,6 @@ class ArithmeticService {
 @RestController
 class CalculateController {
     private val logger = LoggerFactory.getLogger(CalculateController::class.java)
-    private val arithmeticService = ArithmeticService()
 
     /**
      * Calculate the result of an operation
@@ -50,7 +49,7 @@ class CalculateController {
     @PostMapping("/calculate")
     fun calculate(@RequestBody operation: Operation): Result {
         logger.info("Calculating ${operation.a} ${operation.operator} ${operation.b}")
-        return arithmeticService.calculate(operation)
+        return ArithmeticService.calculate(operation)
     }
 }
 
